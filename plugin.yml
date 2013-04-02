@@ -1,3 +1,5 @@
 name: RLMTownyFactions
-main: com.rlminecraft.RLMTownyFaction.RLMTownyFactions
+main: com.rlminecraft.RLMTownyFactions.RLMTownyFactions
 version: 1.0
+author: MattFielding
+depend: [Towny, Factions]

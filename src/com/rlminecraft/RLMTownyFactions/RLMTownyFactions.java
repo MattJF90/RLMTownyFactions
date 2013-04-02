@@ -2,36 +2,34 @@ package com.rlminecraft.RLMTownyFactions;
 
 import java.util.logging.Logger;
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.event.LandClaimEvent;
+import com.massivecraft.factions.P;
 import com.palmergames.bukkit.towny.Towny;
-import com.palmergames.bukkit.towny.object.Coord;
 
 public class RLMTownyFactions extends JavaPlugin implements Listener {
 	
 	Logger console;
 	Towny towny;
+	P factions;
 	
 	public void onEnable() {
 		console = this.getLogger();
 		towny = (Towny) this.getServer().getPluginManager().getPlugin("Towny");
+		factions = (P) this.getServer().getPluginManager().getPlugin("Factions");
+		
+		if (towny == null) {
+			console.severe("Towny was not found on the server!");
+		}
+		if (factions == null) {
+			console.severe("Factions was not found on the server!");
+		}
+		
+		this.getServer().getPluginManager().registerEvents(new FactionListener(this), this);
 	}
 	
-	
-	// EVENT LISTENERS
-	
-	@EventHandler
-	public void onFactionClaim (LandClaimEvent event) {
-		FLocation floc = event.getLocation();
-		//Location loc = new Location(floc.getWorld(), floc.getX(), 64, floc.getZ());
-		Coord coord = new Coord((int)floc.getX(),(int)floc.getZ());
-		boolean doubleClaimed =  towny.getTownyUniverse()
-			.getWorldMap().get(floc.getWorld()).hasTownBlock(coord);
-		if (doubleClaimed) event.setCancelled(true);
+	public void onDisable() {
 	}
 	
 }
